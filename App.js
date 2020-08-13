@@ -30,7 +30,7 @@
 // }
 
 
-import React,{ useEffect } from 'react';
+import React,{ useEffect, useState } from 'react';
 import { View, Text, Button, SafeAreaView } from 'react-native';
 import { createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -38,7 +38,12 @@ import {
   createDrawerNavigator
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Feather';
+import { SearchBar } from 'react-native-elements';
 
+
+
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 function LogoTitle({navigation}) {
   return (
@@ -48,14 +53,38 @@ function LogoTitle({navigation}) {
   );
 }
 
-function Feed({ navigation }) {
+function Home({ navigation }) {
+  const [searchstate, setsearchState] = useState("");
   React.useEffect(() => {
   const unsubscribe = navigation.addListener('drawerOpen', (e) => {
     
   });
 });
+  var updateSearch = (search) => {
+    setsearchState({ search });
+  };
+
   return (
-    <SafeAreaView style={{flex:1, flexDirection:'column', marginTop:20}}>
+    <SafeAreaView style={{flex:1, flexDirection:'column', marginTop:3}}>
+    <View>
+     <Icon name="menu" size={40} color="black" style={{ justifyContent: 'flex-start'}} onPress={() => navigation.toggleDrawer()}/>
+    </View>
+        <SearchBar
+        style={{marginTop:'20%'}}
+        containerStyle={{ borderWidth: 0, borderRadius: 25}}
+        placeholder="Paste the INsta Reels Link here."
+        onChangeText={updateSearch}
+        value={searchstate}
+        lightTheme = 'true'
+        round = 'true'
+      />
+    </SafeAreaView>
+  );
+}
+
+function DownloadPost({ navigation }) {
+  return (
+    <SafeAreaView style={{flex:1, flexDirection:'column', marginTop:3}}>
     <View>
      <Icon name="menu" size={40} color="black" style={{ justifyContent: 'flex-start'}} onPress={() => navigation.toggleDrawer()}/>
     </View>
@@ -63,37 +92,126 @@ function Feed({ navigation }) {
   );
 }
 
-function Notifications() {
-  return (
-    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Notifications Screen</Text>
+function DownloadReels({ navigation }) {
+  return(
+    <SafeAreaView style={{flex:1, flexDirection:'column', marginTop:3}}>
+    <View>
+     <Icon name="menu" size={40} color="black" style={{ justifyContent: 'flex-start'}} onPress={() => navigation.toggleDrawer()}/>
     </View>
+    </SafeAreaView>
+    );
+}
+
+function PrivacyPolicy({ navigation }) {
+  return(
+    <SafeAreaView style={{flex:1, flexDirection:'column', marginTop:3}}>
+    <View>
+     <Icon name="menu" size={40} color="black" style={{ justifyContent: 'flex-start'}} onPress={() => navigation.toggleDrawer()}/>
+    </View>
+    </SafeAreaView>
+    );
+}
+
+function About({ navigation }) {
+  return(
+    <SafeAreaView style={{flex:1, flexDirection:'column', marginTop:3}}>
+    <View>
+     <Icon name="menu" size={40} color="black" style={{ justifyContent: 'flex-start'}} onPress={() => navigation.toggleDrawer()}/>
+    </View>
+    </SafeAreaView>
+    );
+}
+
+const HomeStackNavigator = () => {
+  return (
+    <Stack.Navigator
+          screenOptions={{
+        headerStyle: {
+          backgroundColor: "#9AC4F8",
+           height: 70,
+        },
+        headerTintColor: "white",
+        headerBackTitle: "Back",
+        headerTitleAlign: "center",
+      }}>
+      <Stack.Screen name="Home" component={Home} />
+    </Stack.Navigator>
+  );
+}
+const DownloadPostStackNavigator = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#9AC4F8",
+           height: 70,
+        },
+        headerTintColor: "white",
+        headerBackTitle: "Back",
+        headerTitleAlign: "center",
+      }}>
+      <Stack.Screen name="Download Post" component={DownloadPost} /> 
+    </Stack.Navigator>
+  );
+}
+const AboutStackNavigator = () => {
+  return (
+    <Stack.Navigator       
+    screenOptions={{
+        headerStyle: {
+          backgroundColor: "#9AC4F8",
+           height: 70,
+        },
+        headerTintColor: "white",
+        headerBackTitle: "Back",
+        headerTitleAlign: "center",
+      }}>
+      <Stack.Screen name="About" component={About} />
+    </Stack.Navigator>
+  );
+}
+const DownloadReelsStackNavigator = () => {
+  return (
+    <Stack.Navigator       
+    screenOptions={{
+        headerStyle: {
+          backgroundColor: "#9AC4F8",
+           height: 70,
+        },
+        headerTintColor: "white",
+        headerBackTitle: "Back",
+        headerTitleAlign: "center",
+      }}>
+      <Stack.Screen name="Download Reels" component={DownloadReels} />
+    </Stack.Navigator>
+  );
+}
+const PrivacyPolicyStackNavigator = () => {
+  return (
+    <Stack.Navigator       
+    screenOptions={{
+        headerStyle: {
+          backgroundColor: "#9AC4F8",
+           height: 70,
+        },
+        headerTintColor: "white",
+        headerBackTitle: "Back",
+        headerTitleAlign: "center",
+      }}>
+      <Stack.Screen name="Privacy Policy" component={PrivacyPolicy} />
+    </Stack.Navigator>
   );
 }
 
 
-
-const Stack = createStackNavigator();
-
-
-function Stacknav() {
-  return(
-      <Stack.Navigator initialRouteName='Home' mode='card'>
-      <Stack.Screen name="Insta Reels Downloader" component={MyDrawer} options={{ headerTitle:<LogoTitle/> }} />
-      </Stack.Navigator>
-    );
-}
-
-const Drawer = createDrawerNavigator();
 function MyDrawer() {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="Insta Reels Downloader" component={Stacknav} options={{ headerTitle:<LogoTitle/> }} />
-      <Drawer.Screen name="Home" component={Feed} options={{ headerTitle: 'Feed' }}/>
-      <Drawer.Screen name="Download Post" component={Notifications} options={{ headerTitle: 'Download Post' }}/>
-      <Drawer.Screen name="Download Reels" component={Notifications} options={{ headerTitle: 'Download Reels' }}/>
-      <Drawer.Screen name="Privacy Policy" component={Notifications} options={{ headerTitle: 'Privacy Policy' }}/>
-      <Drawer.Screen name="About" component={Notifications} options={{ headerTitle: 'Abouts' }}/>
+      <Drawer.Screen name="Home" component={HomeStackNavigator} options={{ headerTitle: 'Feed' }}/>
+      <Drawer.Screen name="Download Post" component={DownloadPostStackNavigator} options={{ headerTitle: 'Download Post' }}/>
+      <Drawer.Screen name="Download Reels" component={DownloadReelsStackNavigator} options={{ headerTitle: 'Download Reels' }}/>
+      <Drawer.Screen name="About" component={AboutStackNavigator} options={{ headerTitle: 'Download Reels' }}/>
+      <Drawer.Screen name="Privacy Policy" component={PrivacyPolicyStackNavigator} options={{ headerTitle: 'Download Reels' }}/>
     </Drawer.Navigator>
   );
 }
@@ -101,7 +219,7 @@ function MyDrawer() {
 export default function App() {
   return (
     <NavigationContainer>
-    <Stacknav/>
+    <MyDrawer/>
     </NavigationContainer>
   );
 }
